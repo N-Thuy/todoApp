@@ -3,6 +3,7 @@ import '../src/App.css';
 import TaskForm from './component/TaskForm';
 import Control from './component/Control';
 import TaskList from './component/TaskList';
+import demo from '../src/trainning/demo';
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +14,12 @@ class App extends Component {
       taskEditting: null,
       filter : {
         name: '',
-        status: -1
+        status: -1,
+      },
+      keyword: '',
+      soft: {
+        by: 'name',
+        value: 1,
       }
     }
   }
@@ -138,6 +144,13 @@ class App extends Component {
         status: filterStatus
       }
     })
+  }
+  onSearch = keyword => {
+    this.setState({
+      keyword : keyword
+    })
+    console.log(keyword);
+    
     
     
   }
@@ -153,6 +166,22 @@ class App extends Component {
     //     });
     //   }
     // }
+
+    const datas = [];
+
+    // console.log(task);
+    
+    task.forEach(item => {
+      if(item.name.indexOf(this.state.keyword)!== -1) {
+        datas.push(item);
+        // console.log(result);
+        
+
+        return datas;
+
+      }
+    })
+  
     const elmTaskForm = isDisplayForm ? 
     <TaskForm
       onCloseForm={ this.onCloseForm }
@@ -180,16 +209,16 @@ class App extends Component {
                 Thêm công việc
               </button>
               {/* search - soft */}
-                <Control />
+                <Control onSearch={  this.onSearch } />
               {/* table  */}
               <div className="row mt-15">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <TaskList 
-                    task={ task } 
                     onUpdateStatus={this.onUpdateStatus} 
                     onDelete={this.onDelete}
                     onUpdate = { this.onUpdate }
-                    onFilter = { this.onFilter }/>
+                    onFilter = { this.onFilter }
+                    datas = {this.datas}/>
                 </div>
               </div>
             </div>

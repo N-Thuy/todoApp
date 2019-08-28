@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
+import { connect } from 'react-redux';
 // import './App.css';
 
 class TaskList extends Component {
@@ -25,6 +26,8 @@ class TaskList extends Component {
   }
 
   render() {
+    console.log(this.props.todos);
+    
     const { task } = this.props;  // var tasks = this.props.tasks
     // const { filterName, filterStatus } = this.state;
     const filterWord = (arr) => {
@@ -50,7 +53,6 @@ class TaskList extends Component {
     } else {
       data = filterWord(task);
     }
-
     
     const elmTasks = data.map((task, index) => <TaskItem
       key={task.id}
@@ -58,7 +60,7 @@ class TaskList extends Component {
       task={task}
       onUpdateStatus={this.props.onUpdateStatus}
       onDelete={this.props.onDelete}
-      onUpdate={this.props.onUpdate} />);
+      onUpdate={this.props.onUpdate}/>);
     return (
       <table className="table table-bordered table-hover">
         <thead>
@@ -102,4 +104,10 @@ class TaskList extends Component {
 
 }
 
-export default TaskList;
+const mapStateToProps = (state) => {
+  return {
+    task   :state.task
+  }
+}
+
+export default connect(mapStateToProps, null) (TaskList);
